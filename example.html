@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打印模板使用示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+        }
+        
+        .demo-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .demo-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .demo-controls {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .control-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .control-panel h3 {
+            margin-top: 0;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #1e7e34;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .print-preview {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #0c5460;
+        }
+
+        .note strong {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>通用打印模板演示</h1>
+            <p>基于新材料样品确认单格式的可重用前端打印模板</p>
+        </div>
+
+        <div class="note">
+            <strong>使用说明：</strong>
+            1. 在左侧控制面板中填写表单数据
+            2. 勾选需要的选项
+            3. 点击"更新模板"查看效果
+            4. 点击"打印文档"进行打印
+        </div>
+
+        <div class="demo-controls">
+            <!-- 控制面板 -->
+            <div class="control-panel">
+                <h3>表单数据设置</h3>
+                
+                <div class="form-group">
+                    <label for="sampleName">样品名称：</label>
+                    <input type="text" id="sampleName" value="白色导线">
+                </div>
+                
+                <div class="form-group">
+                    <label for="brandNumber">牌号：</label>
+                    <input type="text" id="brandNumber" value="7010600000412">
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">送样数量：</label>
+                    <input type="text" id="quantity" value="3">
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitTime">送样时间：</label>
+                    <input type="text" id="submitTime" value="2025.6.25">
+                </div>
+                
+                <div class="form-group">
+                    <label for="storageTime">储存期限：</label>
+                    <input type="text" id="storageTime" value="6个月">
+                </div>
+                
+                <div class="form-group">
+                    <label for="packageMethod">包装方式：</label>
+                    <input type="text" id="packageMethod" value="普通透明密封袋+标签包装">
+                </div>
+                
+                <div class="form-group">
+                    <label for="supplierContact">供应商联系人：</label>
+                    <input type="text" id="supplierContact" value="张明明">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">电话：</label>
+                    <input type="text" id="phone" value="13316568509">
+                </div>
+
+                <h3>样品来源选项</h3>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="newSupplier" checked>
+                        <label for="newSupplier">新供应商</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="existing">
+                        <label for="existing">现有</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="materialChange">
+                        <label for="materialChange">原料变更</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sameMaterial" checked>
+                        <label for="sameMaterial">与材料间同样使用</label>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="updateTemplate()">更新模板</button>
+                    <button class="btn btn-success" onclick="printDocument()">打印文档</button>
+                    <button class="btn btn-warning" onclick="resetTemplate()">重置模板</button>
+                    <button class="btn btn-secondary" onclick="exportData()">导出数据</button>
+                </div>
+            </div>
+
+            <!-- 预览区域 -->
+            <div class="print-preview">
+                <div id="print-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入打印模板类 -->
+    <script src="PrintTemplate.js"></script>
+    <script>
+        // 初始化打印模板
+        let printTemplate;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建打印模板实例
+            printTemplate = new PrintTemplate('print-container');
+            
+            // 初始化数据
+            updateTemplate();
+        });
+
+        // 更新模板
+        function updateTemplate() {
+            const data = {
+                sampleName: document.getElementById('sampleName').value,
+                brandNumber: document.getElementById('brandNumber').value,
+                quantity: document.getElementById('quantity').value,
+                submitTime: document.getElementById('submitTime').value,
+                storageTime: document.getElementById('storageTime').value,
+                packageMethod: document.getElementById('packageMethod').value,
+                supplierContact: document.getElementById('supplierContact').value,
+                phone: document.getElementById('phone').value,
+                
+                // 复选框状态
+                newSupplierChecked: document.getElementById('newSupplier').checked,
+                existingChecked: document.getElementById('existing').checked,
+                materialChangeChecked: document.getElementById('materialChange').checked,
+                sameMaterialChecked: document.getElementById('sameMaterial').checked
+            };
+            
+            printTemplate.setData(data);
+        }
+
+        // 打印文档
+        function printDocument() {
+            updateTemplate(); // 确保数据是最新的
+            printTemplate.print();
+        }
+
+        // 重置模板
+        function resetTemplate() {
+            // 重置表单
+            document.getElementById('sampleName').value = '白色导线';
+            document.getElementById('brandNumber').value = '7010600000412';
+            document.getElementById('quantity').value = '3';
+            document.getElementById('submitTime').value = '2025.6.25';
+            document.getElementById('storageTime').value = '6个月';
+            document.getElementById('packageMethod').value = '普通透明密封袋+标签包装';
+            document.getElementById('supplierContact').value = '张明明';
+            document.getElementById('phone').value = '13316568509';
+            
+            // 重置复选框
+            document.getElementById('newSupplier').checked = true;
+            document.getElementById('existing').checked = false;
+            document.getElementById('materialChange').checked = false;
+            document.getElementById('sameMaterial').checked = true;
+            
+            // 重置模板
+            printTemplate.reset();
+            updateTemplate();
+        }
+
+        // 导出数据
+        function exportData() {
+            updateTemplate();
+            const data = printTemplate.getData();
+            
+            // 创建下载链接
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '打印模板数据.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+            
+            alert('数据已导出为JSON文件');
+        }
+
+        // 实时更新功能
+        document.addEventListener('input', function(e) {
+            if (e.target.tagName === 'INPUT') {
+                updateTemplate();
+            }
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                updateTemplate();
+            }
+        });
+    </script>
+</body>
+</html>
